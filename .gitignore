@@ -1,0 +1,11 @@
+build/
+dist/
+release/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.dmg
+*.zip
+versions/
+.DS_Store

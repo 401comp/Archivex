@@ -1,0 +1,5 @@
+pyzipper>=0.3.6
+py7zr>=0.20
+Pillow>=9.0
+py2app>=0.28
+tkinterdnd2>=0.4.0

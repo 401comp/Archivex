@@ -39,7 +39,7 @@ PYBIN=$(find_python) || {
 VENV_REAL=$( [ -x venv/bin/python3 ] && venv/bin/python3 -c 'import sys; print(sys.executable)' 2>/dev/null || echo none )
 PYBIN_REAL=$("$PYBIN" -c 'import sys; print(sys.executable)')
 if [ ! -d venv ] || [ "$VENV_REAL" != "$PYBIN_REAL" ]; then
-    echo "Creating venv from $PYBIN…"
+    echo "Creating venv from ${PYBIN}…"
     rm -rf venv
     "$PYBIN" -m venv venv
 fi
@@ -105,8 +105,15 @@ hdiutil create -volname "$APP_NAME" -srcfolder "$dmg_tmp" \
     -ov -format UDZO "$DMG_NAME" 2>/dev/null
 rm -rf "$dmg_tmp"
 
+# --- portable app ZIP for GitHub Releases ---
+ZIP_NAME="${APP_NAME}-1.0.0-macos.zip"
+rm -f "$ZIP_NAME"
+ditto -c -k --sequesterRsrc --keepParent "$app_path" "$ZIP_NAME"
+unzip -t "$ZIP_NAME" >/dev/null
+
 echo ""
 echo "=== Build complete ==="
 echo "  App: $app_path"
 echo "  DMG: $(pwd)/$DMG_NAME"
+echo "  ZIP: $(pwd)/$ZIP_NAME"
 echo "  Size: $(du -h "$DMG_NAME" | cut -f1)"

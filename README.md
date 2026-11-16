@@ -25,3 +25,8 @@ The build script creates an isolated environment, installs the dependencies from
 ## License
 
 See the source distribution for license details.
+## Support
+
+Found a problem? [Report it on GitHub](https://github.com/401comp/Archivex/issues/new?template=bug_report.md).
+Please include the app version and your macOS version, but never include archive
+passwords or private files.

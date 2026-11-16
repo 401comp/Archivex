@@ -12,25 +12,20 @@ unset CONDA_PREFIX DYLD_LIBRARY_PATH DYLD_FALLBACK_LIBRARY_PATH 2>/dev/null || t
 
 echo "=== ${APP_NAME} build ==="
 
-# --- venv (python.org framework Python preferred — conda's python3 ships
+# --- venv (python.org framework Python only — conda's python3 ships
 #     @rpath libs py2app can't bundle, producing the "py2app terminated"
-#     crash; see memory. Homebrew is a fallback, not preferred: its
-#     python-tk formula can silently ship Tk 9.0.x, whose early-release
-#     Cocoa backend drops single clicks on native window-chrome controls
-#     [minimize button, title bar] — see tk-macos-common-mistakes section 5) ---
+#     crash) ---
 find_python() {
     local cand
     for v in 3.13 3.12 3.11 3.10 3.9; do
         cand="/Library/Frameworks/Python.framework/Versions/$v/bin/python3"
         [ -x "$cand" ] && echo "$cand" && return 0
     done
-    cand="/usr/local/opt/python@3.14/bin/python3.14"
-    [ -x "$cand" ] && echo "$cand" && return 0
     return 1
 }
 PYBIN=$(find_python) || {
-    echo "ERROR: no usable Python found (checked python.org framework + Homebrew python@3.14)"
-    echo "Install one:  https://www.python.org/downloads/macos/  or  brew install python@3.14 python-tk@3.14"
+    echo "ERROR: no usable framework Python found."
+    echo "Install one from: https://www.python.org/downloads/macos/"
     exit 1
 }
 # Recreate the venv if missing OR built from a different interpreter (e.g. a

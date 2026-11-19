@@ -1146,9 +1146,11 @@ class ArchivexApp:
 
         def cb(cur, tot):
             pct = cur / tot * 100 if tot else 100
-            self.root.after(0, lambda: self.progress.configure(value=pct))
             self.root.after(
-                0, lambda: self.status_var.set(f"Archiving: {cur}/{tot} files")
+                0, lambda: (
+                    self.progress.configure(value=pct),
+                    self.status_var.set(f"Archiving: {cur}/{tot} files"),
+                )
             )
 
         def task():
@@ -1202,11 +1204,9 @@ class ArchivexApp:
 
     def _create_ok(self, path, count, size, encrypted, reveal):
         self._set_working(False, self.c_btn)
-        self.progress["value"] = 100
         enc = " (encrypted)" if encrypted else ""
-        self.status_var.set(
-            f"Completed — {count} files → {self._fmt_size(size)}{enc}"
-        )
+        self.progress["value"] = 100
+        self.status_var.set(f"{count} files processed. Complete!")
         self._refresh_history()
         self._play_done_sound(ok=True)
         self._bring_to_front()
@@ -1260,9 +1260,7 @@ class ArchivexApp:
                         self.status_var.set(
                             f"Extracting {i + 1}/{total_archives}: {n}"
                         ),
-                        self.progress.configure(
-                            value=i / total_archives * 100
-                        ),
+                        self.progress.configure(value=i / total_archives * 100),
                     ),
                 )
 
@@ -1317,10 +1315,7 @@ class ArchivexApp:
         self._bring_to_front()
 
         if all_ok:
-            self.status_var.set(
-                f"Completed — extracted {items} items from {ok} archive"
-                f"{'s' if ok != 1 else ''}"
-            )
+            self.status_var.set(f"{items} files processed. Complete!")
             messagebox.showinfo(
                 "Extraction Complete",
                 f"All {ok} archive{'s' if ok != 1 else ''} extracted "

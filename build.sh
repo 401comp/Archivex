@@ -101,7 +101,7 @@ hdiutil create -volname "$APP_NAME" -srcfolder "$dmg_tmp" \
 rm -rf "$dmg_tmp"
 
 # --- portable app ZIP for GitHub Releases ---
-ZIP_NAME="${APP_NAME}-1.0.0-macos.zip"
+ZIP_NAME="${APP_NAME}-1.0.1-macos.zip"
 rm -f "$ZIP_NAME"
 ditto -c -k --sequesterRsrc --keepParent "$app_path" "$ZIP_NAME"
 unzip -t "$ZIP_NAME" >/dev/null

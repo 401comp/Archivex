@@ -34,7 +34,7 @@ except ImportError:
     HAS_DND = False
 
 APP_NAME = "Archivex"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 
 FORMATS_CREATE = [
     ("ZIP", ".zip"),
